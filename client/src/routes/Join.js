@@ -1,99 +1,132 @@
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-export default function Join(){
+export default function Join() {
+  const api_link = process.env.API_LINK;
+  const navigate = useNavigate();
 
-    const api_link = process.env.API_LINK
-    const navigate = useNavigate();
-
-    async function login(){
-        const body = {
-          username: document.getElementById("loginUsername").value,
-          password: document.getElementById("loginPass").value,
-        };
-        console.log(body)
-        const { data } = await axios.post(
-          DBAPI_URI + '/users/sign-in',
-          body
-        );
-        if(data.error){
-            document.getElementById("loginErr").innerHTML = error
-        }
-        else{
-            //Set in cache then
-            navigate("/Rank")
-        }
+  async function login() {
+    const body = {
+      username: document.getElementById("loginUsername").value,
+      password: document.getElementById("loginPass").value,
+    };
+    console.log(body);
+    const { data } = await axios.post(
+      process.env.DBAPI_URI + "/users/sign-in",
+      body
+    );
+    if (data.error) {
+      document.getElementById("loginErr").innerHTML = data.error;
+    } else {
+      //Set in cache then
+      navigate("/Rank");
     }
+  }
 
+  async function create() {
+    const pass = document.getElementById("joinPass").value;
+    const error = document.getElementById("joinErr");
 
-    async function create(){
-        const pass = document.getElementById("joinPass").value
-        const error = document.getElementById("joinErr")
-        if(pass != document.getElementById("joinPassConf").value){
-            error.innerHTML = "Passwords don't match"
-        }
-        else{
-            const body = {
-            username: document.getElementById("joinUsername").value,
-            password: pass,
-            email: document.getElementById("joinEmail").value
-          };
-          const { data } = await axios.post(
-            DBAPI_URI + "/users/create",
-            body
-          );
-          if(data.error){
-            error.innerHTML = error
-          }
-          else{
-            //Set in cache then 
-            navigate("/Rank")
-          }
-        }
+    if (pass !== document.getElementById("joinPassConf").value) {
+      error.innerHTML = "Passwords don't match";
+    } else {
+      const body = {
+        username: document.getElementById("joinUsername").value,
+        password: pass,
+        email: document.getElementById("joinEmail").value,
+      };
+      const { data } = await axios.post(
+        process.env.DBAPI_URI + "/users/create",
+        body
+      );
+      if (data.error) {
+        error.innerHTML = error;
+      } else {
+        //Set in cache then
+        navigate("/Rank");
+      }
     }
+  }
 
-    return (
-        <div className = "flex flex-row justify-center items-center h-screen">
+  return (
+    <div className="flex flex-col justify-center items-center h-screen bg-slate-950">
+      <div class="w-full text-left p-8">
+        <h1 className="text-4xl text-white text-purple-300">
+          <i class="fa-solid fa-ranking-star text-3xl mb-3 text-yellow-200 mr-4"></i>
+          ech<span className="text-purple-400 font-semibold">elo</span>n
+        </h1>
+      </div>
+      <div className="h-full text-center w-1/4 mt-5">
+        <h1 className="text-4xl font-medium text-white my-2 mb-10 text-left">
+          Join the <span className="text-teal-300 font-bold">Race</span>.
+        </h1>
 
-            <div className = "flex flex-col justify-center items-center">
-                <p className = "italic my-4">Want to play the game?</p>
-                <h1 className = "text-4xl font-bold text-purple-400 my-2">Join</h1>
+        <div class = "text-left mb-2 text-2xl font-semibold">Username</div> 
+        <input
+          id="joinUsername"
+          name="joinUsername"
+          placeholder="e.g. spon96"
+          className="p-2 border-2 rounded border-white bg-white text-slate-800 mb-6 outline-none w-full"
+        ></input>
+        <br />
+        <div class = "text-left mb-2 text-2xl font-semibold">Email</div> 
+        <input
+          id="joinEmail"
+          name="joinEmail"
+          placeholder="example@umd.edu"
+          className="p-2 border-2 rounded border-white bg-white text-slate-800 mb-6 outline-none w-full"
+        ></input>
+        <br />
 
-                <label for = "joinUsername">Username: </label>
-                <input id = "joinUsername" name = "joinUsername" className = "p-2 border-2 border-white bg-black"></input>
+        <div class = "text-left mb-2 text-2xl font-semibold">Password</div> 
+        <input
+          id="joinPass"
+          name="joinPass"
+          placeholder="••••••••••"
+          className="p-2 border-2 rounded border-white bg-white text-slate-800 mb-6 outline-none w-full"
+        ></input>
+        <br />
+        <div class = "text-left mb-2 text-2xl font-semibold">Confirm Password </div> 
+        <input
+          id="joinPassConf"
+          name="joinPassConf"
+          placeholder="••••••••••"
+          className="p-2 border-2 rounded border-white bg-white text-slate-800 mb-4 outline-none w-full"
+        ></input>
+        <br />
 
-                <label for = "joinEmail">Email: </label>
-                <input id = "joinEmail" name = "joinEmail" className = "p-2 border-2 border-white bg-black"></input>
+        <button className="p-2 rounded bg-purple-500 text-slate-100 mt-6 font-bold outline-none w-full">
+          Create an Account
+        </button>
 
-                <label for = "joinPass">Password: </label>
-                <input id = "joinPass" name = "joinPass" className = "p-2 border-2 border-white bg-black"></input>
+        <p className="text-red" id="joinErr"></p>
+      </div>
 
-                <label for = "joinPassConf">Confirm Password: </label>
-                <input id = "joinPassConf" name = "joinPassConf" className = "p-2 border-2 border-white bg-black"></input>
+      {/* <div className="w-1/2 flex flex-col justify-center items-center h-full bg-blue-500">
+        <h1 className="text-4xl font-bold text-purple-400 my-2">
+          Welcome Back.
+        </h1>
 
-                <button className = "bg-purple-200 opacity-100 hover:opacity-50 transition-all ease-in border-purple-800 border-2 my-4 p-4 text-purple-700 italic">
-                Join</button>
+        <input
+          id="loginUsername"
+          name="loginUsername"
+          placeholder="Username"
+          className="p-2 border-b-4 border-white bg-black mb-4 font-bold outline-none"
+        ></input>
 
-                <p className = "text-red" id = "joinErr"></p>
-            </div>
+        <input
+          id="loginPass"
+          name="loginPass"
+          placeholder="Password"
+          className="p-2 border-b-4 border-white bg-black mb-4 font-bold outline-none"
+        ></input>
 
-            <div className = "w-1/4"></div>
+        <button className="mt-5 p-2 m-2 bg-slate-100 text-purple-500 font-bold rounded hover:bg-purple-500 hover:text-white">
+          Sign In
+        </button>
 
-            <div className = "flex flex-col justify-center items-center">
-                <p className = "italic my-4">Already a customer?</p>
-                <h1 className = "text-4xl font-bold text-purple-400 my-2">Login</h1>
-
-                <label for = "loginUsername">Username: </label>
-                <input id = "loginUsername" name = "loginUsername" className = "p-2 border-2 border-white bg-black"></input>
-
-                <label for = "loginPass">Password: </label>
-                <input id = "loginPass" name = "loginPass" className = "p-2 border-2 border-white bg-black"></input>
-
-                <button className = "bg-purple-200 opacity-100 hover:opacity-50 transition-all ease-in border-purple-800 border-2 my-4 p-4 text-purple-700 italic">
-                Join</button>
-
-                <p className = "text-red" id = "loginErr"></p>
-            </div>
-
-        </div>
-    )
+        <p className="text-red" id="loginErr"></p>
+      </div> */}
+    </div>
+  );
 }

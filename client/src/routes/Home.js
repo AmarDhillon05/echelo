@@ -1,19 +1,21 @@
+import { useNavigate } from "react-router-dom";
 
+export default function Home() {
+  const navigate = useNavigate();
 
-export default function Home(){
-    return (
-        <div className = "flex flex-col justify-center items-center h-screen">
-            <h1 className = "text-4xl font-bold text-purple-400 my-2">Echelon</h1>
-            <p className = "italic my-4">increasing the competition</p>
+  return (
+    <div className="flex flex-col justify-center items-center h-screen">
+      <i class="fa-solid fa-ranking-star text-5xl mb-3 text-yellow-200"></i>
+      <h1 className="text-5xl font-bold text-white text-purple-300">echelon</h1>
+      <p>elo rankings for everything.</p>
 
-            <button className = "bg-purple-200 opacity-100 hover:opacity-50 transition-all ease-in border-purple-800 border-2 my-4 p-4 text-purple-700 italic">
-                Start rating</button>
-
-            <a href = "/join">
-                <button className = "bg-blue-200 opacity-100 hover:opacity-50 transition-all ease-in border-blue-800 border-2 my-4 p-4 text-blue-700 italic">
-                Join the platform</button>
-            </a>
-
-        </div>
-    )
+      <button
+        onClick={() => navigate("/join")}
+        className="mt-5 p-2 m-2 bg-slate-100 text-purple-500 rounded hover:bg-purple-500 hover:text-white font-bold"
+      >
+        {" "}
+        Get Started{" "}
+      </button>
+    </div>
+  );
 }
