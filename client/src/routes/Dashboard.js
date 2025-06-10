@@ -1,30 +1,35 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 export default function Dashboard(){
+
+    const navigate = useNavigate();
 
     const [leaderboardIds, setLeaderboardIds] = useState([])
     const [submissions, setSubmissions] = useState([])
 
     useEffect(() => {
-        const user = localStorage.getItem("user")
+        let user = localStorage.getItem("user")
         if(!user){
             navigate("/login")
         }
         else{
+            user = JSON.parse(user)
+            console.log(user)
             setLeaderboardIds(user.leaderboardIds)
             setSubmissions(user.submissions)
         }
     }, [])
 
     return (
-    <div className="flex flex-col justify-center items-center h-screen">
+        <div className = "px-8 py-8">
+            <Navbar></Navbar>
+            <div className="flex flex-col justify-center items-center h-screen">
 
-        <a href = "/" className = "float-left flex-left">
-            <i class="fa-solid fa-ranking-star text-5xl mb-3 text-yellow-200"></i>
-            <h1 className="text-5xl font-bold text-white text-purple-300">echelon</h1>
-        </a>
 
-   
-    </div>
+        
+            </div>
+        </div>
     )
 }

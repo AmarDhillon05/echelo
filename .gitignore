@@ -1,0 +1,5 @@
+./client/.env
+./auth/.env
+./api/.env
+./auth/node_modules
+./client/node_modules
