@@ -10,7 +10,15 @@ export default function Home() {
       <p>elo rankings for everything.</p>
 
       <button
-        onClick={() => navigate("/join")}
+        onClick={() => {
+          const user = localStorage.getItem("user")
+          if(user){
+            navigate("/dashboard")
+          }
+          else{
+            navigate("/login")
+          }
+        }}
         className="mt-5 p-2 m-2 bg-slate-100 text-purple-500 rounded hover:bg-purple-500 hover:text-white font-bold"
       >
         {" "}
