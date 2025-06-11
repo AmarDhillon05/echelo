@@ -32,9 +32,22 @@ app.post("/api/users/create", async (req, res) => {
       const body = {
         username: req.body.username,
         password : password,
-        email : req.body.email,
-        entries : []
+        email : req.body.email
       };
+
+      //Identity checks
+      if(req.body.username){
+        let user = await User.findOne({ username: req.body.username });
+        if(user){
+          res.status(500).json({ error:"Username is already taken" })
+        }
+      }
+      else if(req.body.email){
+        let user = await User.findOne({password: email})
+        if(user){
+          res.status(500).json({ error:"Email is already taken" })
+        }
+      }
 
       const user = await User.create(body);
       res.status(200).json({ user, success: true });
@@ -52,7 +65,7 @@ app.post("/api/users/sign-in", async (req, res) => {
 
     if (req.body.username && req.body.password) {
       if (!(await bcrypt.compare(req.body.password, user.password)))
-        return res.status(401).json({ error: "unauthorized access" });
+        return res.status(401).json({ error: "incorrect Password" });
       else {
         res.status(200).json({ user, success: true });
       }
@@ -61,6 +74,7 @@ app.post("/api/users/sign-in", async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
+
 
 app.post("/api/users/get-user-data", async (req, res) => {
   try {
@@ -81,6 +95,20 @@ app.post("/api/users/get-user-data", async (req, res) => {
 
 app.put("/api/users/update/:id", async (req, res) => {
   try {
+
+    if(req.body.username){
+      let user = await User.findOne({ username: req.body.username });
+      if(user){
+        res.status(500).json({ error:"Username is already taken" })
+      }
+    }
+    else if(req.body.email){
+      let user = await User.findOne({password: email})
+      if(user){
+        res.status(500).json({ error:"Email is already taken" })
+      }
+    }
+
     let user = await User.findByIdAndUpdate(req.params.id, req.body);
     res.status(200).json({ user, success: true });
   } catch (e) {

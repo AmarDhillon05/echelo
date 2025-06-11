@@ -13,10 +13,17 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  entries : {
+  leaderboardIds : {
     type: Array,
-    required: true
-  } 
+    required: false, 
+    default: []
+  },
+  submissions : {
+    type: Array, 
+    required: false,
+    default: []
+  }
+
   //Entries will be what you've submitted to be ranked, and will contain 
   //id infos that can be looked up in the database of ranked items
 });

@@ -2,26 +2,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Join() {
-  const api_link = process.env.API_LINK;
-  const navigate = useNavigate();
-
-  async function login() {
-    const body = {
-      username: document.getElementById("loginUsername").value,
-      password: document.getElementById("loginPass").value,
-    };
-    console.log(body);
-    const { data } = await axios.post(
-      process.env.DBAPI_URI + "/users/sign-in",
-      body
-    );
-    if (data.error) {
-      document.getElementById("loginErr").innerHTML = data.error;
-    } else {
-      //Set in cache then
-      navigate("/Rank");
-    }
-  }
+    //const dburi = process.env.DBAPI_URI
+    const dburi = "http://localhost:2022/api"
+   const navigate = useNavigate();
 
   async function create() {
     const pass = document.getElementById("joinPass").value;
@@ -35,15 +18,20 @@ export default function Join() {
         password: pass,
         email: document.getElementById("joinEmail").value,
       };
-      const { data } = await axios.post(
-        process.env.DBAPI_URI + "/users/create",
-        body
-      );
-      if (data.error) {
-        error.innerHTML = error;
-      } else {
-        //Set in cache then
-        navigate("/Rank");
+      if(body.username == "" || body.password == "" || body.email == ""){
+        error.innerHTML = "Fill out all fields"
+      }
+      else{
+        const { data } = await axios.post(
+          dburi + "/users/create",
+          body
+        );
+        if (data.error) {
+          error.innerHTML = error;
+        } else {
+          localStorage.setItem("user", data)
+          navigate("/Rank");
+        }
       }
     }
   }
@@ -82,6 +70,7 @@ export default function Join() {
         <input
           id="joinPass"
           name="joinPass"
+          type = "password"
           placeholder="••••••••••"
           className="p-2 border-2 rounded border-white bg-white text-slate-800 mb-6 outline-none w-full"
         ></input>
@@ -91,13 +80,21 @@ export default function Join() {
           id="joinPassConf"
           name="joinPassConf"
           placeholder="••••••••••"
+          type = "password"
           className="p-2 border-2 rounded border-white bg-white text-slate-800 mb-4 outline-none w-full"
         ></input>
         <br />
 
-        <button className="p-2 rounded bg-purple-500 text-slate-100 mt-6 font-bold outline-none w-full">
+        <button className="p-2 rounded bg-purple-500 text-slate-100 mt-6 font-bold outline-none w-full"
+        onClick={() => {
+          create()
+        }}
+        >
           Create an Account
         </button>
+
+
+        <a href = "/login" className = "text-purple-500 italic transition-all duration-500 hover:text-purple-700">Not New? Login Here</a>
 
         <p className="text-red" id="joinErr"></p>
       </div>
