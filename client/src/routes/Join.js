@@ -22,16 +22,22 @@ export default function Join() {
         error.innerHTML = "Fill out all fields"
       }
       else{
-        const { data } = await axios.post(
-          dburi + "/users/create",
-          body
-        );
-        if (data.error) {
-          error.innerHTML = error;
-        } else {
-          localStorage.setItem("user", data)
-          navigate("/Rank");
+
+        try {
+          const { data } = await axios.post(dburi + "/users/create", body);
+          
+
+          if (!data.user) {
+            document.getElementById("loginErr").innerHTML = data.error;
+          } else {
+            localStorage.setItem("user", JSON.stringify(data.user));
+            navigate("/dashboard");
+          }
+        } catch (err) {
+          const message = err.response?.data?.error || "Something went wrong. Please try again.";
+          document.getElementById("joinErr").innerHTML = message;
         }
+
       }
     }
   }
@@ -40,7 +46,9 @@ export default function Join() {
     <div className="flex flex-col justify-center items-center h-screen bg-slate-950">
       <div class="w-full text-left p-8">
         <h1 className="text-4xl text-white text-purple-300">
-          <i class="fa-solid fa-ranking-star text-3xl mb-3 text-yellow-200 mr-4"></i>
+           <a href = "/">
+                    <i className="fa-solid fa-ranking-star text-5xl mb-3 text-yellow-200 hover:text-white transition-all duration-750"></i>
+            </a>
           ech<span className="text-purple-400 font-semibold">elo</span>n
         </h1>
       </div>
