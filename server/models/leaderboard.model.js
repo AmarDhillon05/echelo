@@ -19,7 +19,7 @@ const leaderboardSchema = new Schema({
   submissions: {
     type: Array,
     required: false,
-    default: [], //To be sorted easily for extraction, is {id : {elo: 0, rank: 0}}
+    default: {}, //To be sorted easily for extraction, is {id : {elo: 0, rank: 0}}
   },
 });
 

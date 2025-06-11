@@ -13,6 +13,7 @@ export default function App() {
       <Routes>
           <Route index element={<Home />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="rate" element={<ComparePage />} />
           <Route path="profile" element={<Profile />} />
           <Route path="join" element={<Join />} />
           <Route path="login" element={<Login />} />
