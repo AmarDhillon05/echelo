@@ -11,15 +11,15 @@ const leaderboardSchema = new Schema({
     type: String,
     required: true,
   },
-  description: {
-    type: String,
+  required: {
+    type: Array,
     required: true,
-    default: "",
+    default: [] //Would include type info, array of objects
   },
   submissions: {
-    type: Array,
+    type: Object,
     required: false,
-    default: {}, //To be sorted easily for extraction, is {id : {elo: 0, rank: 0}}
+    default: {} //To be sorted easily for extraction, is {id : {elo: 0, rank: 0}}
   },
 });
 

@@ -5,6 +5,7 @@ import Profile from "./routes/Profile"
 import Join from "./routes/Join"
 import Login from "./routes/Login"
 import Dashboard from "./routes/Dashboard"
+import ComparePage from "./routes/ComparePage"
 
 
 export default function App() {

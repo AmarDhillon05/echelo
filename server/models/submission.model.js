@@ -10,11 +10,6 @@ const submissionSchema = new Schema({
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-    required: true,
-    default: "No Description Provided",
-  },
   elo: {
     type: Number,
     required: true,
@@ -24,20 +19,12 @@ const submissionSchema = new Schema({
     type: Number,
     required: true,
   },
-  images: {
-    type: Object,
-    required: false,
-    default: {}, //Either raw image data or links to S3 buckets (likely) or some other online hosting platform
-  },
-  links: {
-    type: Object,
-    required: false,
-    default: {},
-  },
   data: {
     type: Object,
     required: false,
-    default: {}, //This is what would go into pinecone alongside description, might be mandatory based on what's specified by host
+    default: {}, 
+    //This is what would go into pinecone alongside description, might be mandatory based on what's specified by host
+    //also required
   },
   // Only for submissions that are user-linked (like for competitions) (List of user IDs)
   contributors: {
