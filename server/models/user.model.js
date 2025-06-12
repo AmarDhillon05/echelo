@@ -22,7 +22,7 @@ const userSchema = new Schema({
     default: []
   },
 
-  // Submissions that the user has givn to a set leaderboard. 
+  // Submissions that the user has givn to a set leaderboard  - these are ids btw
   submissions : {
     type: Array, 
     required: false,

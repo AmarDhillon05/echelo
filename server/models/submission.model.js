@@ -25,6 +25,7 @@ const submissionSchema = new Schema({
     default: {}, 
     //This is what would go into pinecone alongside description, might be mandatory based on what's specified by host
     //also required
+    //formatted the same way as "required" in leaderboard.model.js
   },
   // Only for submissions that are user-linked (like for competitions) (List of user IDs)
   contributors: {

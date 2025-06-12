@@ -21,3 +21,13 @@ params: {
     ... (anything specified in required)
 }
 returns confirmation
+
+
+
+POST /poll
+params: {
+    leaderboard, 
+    targetElo, 
+    previousPicks
+}
+returns { "choice1", "choice2" } where both are database entries to be compared
